@@ -1,0 +1,280 @@
+body {
+    background-color: #000;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-results h3 {
+    color: #fff;
+    text-decoration: none;
+}
+
+p.time-created {
+    font-size: 10px;
+}
+
+.search-results .result a {
+    color: #444444;
+    text-decoration: none;
+}
+
+.search-results .result a:hover {
+    color: #750000;
+    text-decoration: underline;
+}
+
+.search-results .result {
+    border-bottom: 1px solid #750000;
+    margin-bottom: 50px;
+}
+
+.search-results .result:last-child {
+    border-bottom: none;
+    margin-bottom: 70px;
+}
+
+h1,
+h2,
+p,
+label {
+    color: #fff;
+}
+
+#animation-home {
+    animation-duration: 2s;
+    animation-name: fadeHomeIn;
+}
+
+@keyframes fadeHomeIn {
+    from {
+        opacity: 0%;
+    }
+    to {
+        opacity: 100%;
+    }
+}
+
+.btn-custom {
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 100px;
+    width: 80px;
+}
+
+.btn-custom:hover {
+    background-color: #fff;
+    border-color: #750000;
+    color: #000;
+}
+
+#login-container a,
+#register-container a {
+    color: #444444;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#login-container a:hover,
+#register-container a:hover {
+    text-decoration: underline;
+    color: #fff;
+}
+
+header {
+    background-color: #750000;
+    height: 80px;
+    background-image: linear-gradient(#750000, #000);
+    animation-duration: 1s;
+    animation-name: slideInHeader;
+}
+
+
+/* @keyframes slideInHeader {
+    from {
+        margin-top: -100px;
+    }
+    to {
+        margin-top: 0%;
+    }
+} */
+
+.header-right {
+    margin-right: 80px;
+    margin-top: 5px;
+}
+
+header .header-right a,
+a:not([href]):not([class]),
+a:not([href]):not([class]):hover {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #fff;
+    text-decoration: none;
+    padding: 5px;
+}
+
+a:not([href]):not([class])::after,
+#login-link::after {
+    content: "|";
+    color: #000;
+    padding-left: 15px;
+}
+
+header .header-right a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+#logo {
+    width: 350px;
+    height: 200px;
+}
+
+.logo-div {
+    margin-top: 200px;
+}
+
+#login-container,
+#register-container,
+#forgot-password-container,
+#reset-password-container,
+#add-article-container {
+    background-color: #750000;
+    background: radial-gradient(#750000, #000 70%);
+    padding: 50px;
+    width: 90%;
+    animation-duration: 1s;
+    animation-name: fadeHomeIn;
+}
+
+.search-input {
+    border: 1px solid #750000;
+    height: 50px;
+    padding: 10px 20px;
+    border-radius: 100px;
+    max-width: 580px;
+}
+
+input:focus,
+textarea:focus {
+    box-shadow: none !important;
+    background-color: #000 !important;
+    color: #fff !important;
+    border-color: #fff !important;
+}
+
+.search-input input {
+    flex: 1;
+    padding: 10px 0;
+    border: none;
+    margin: 0 10px;
+    outline: none;
+    background-color: #000;
+    color: #fff;
+}
+
+#search-button {
+    font-weight: bold;
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #750000;
+    border-radius: 100px;
+    width: 100px;
+    height: 40px;
+}
+
+#search-button:hover {
+    color: #000;
+    border-color: #000;
+    background-color: #750000;
+}
+
+footer {
+    background-color: #750000;
+    height: 80px;
+    background-image: linear-gradient(#000, #750000);
+    /* position: absolute; */
+    margin-top: auto;
+    bottom: 0;
+    min-width: 100%;
+    animation-duration: 1s;
+    animation-name: slideInFooter;
+}
+
+
+/* @keyframes slideInFooter {
+    from {
+        margin-bottom: -100px;
+    }
+    to {
+        margin-bottom: 0%;
+    }
+} */
+
+.footer-left {
+    margin-left: 80px;
+    margin-bottom: 5px;
+}
+
+footer .footer-left a {
+    color: #fff;
+    font-size: 15px;
+    font-family: arial, sans-serif;
+    text-decoration: none;
+}
+
+footer .footer-left a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    width: 50px;
+}
+
+@media screen and (max-width: 767px) {
+    header .header-right a,
+    a:not([href]):not([class]),
+    a:not([href]):not([class]):hover {
+        font-size: 12px;
+    }
+    .header-right {
+        margin-right: 0px;
+    }
+    .footer-left {
+        margin-left: 0px;
+    }
+    #logo {
+        width: 300px;
+        height: 175px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    #login-container,
+    #register-container,
+    #forgot-password-container,
+    #reset-password-container,
+    #add-article-container {
+        background-color: #750000;
+        background: radial-gradient(#750000, #000 70%);
+        padding: 20px;
+        width: 90%;
+    }
+}
