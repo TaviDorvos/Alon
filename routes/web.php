@@ -17,21 +17,41 @@ Route::get('/', function () {
     return view('home');
 });
 
-//creating the register view
-Route::get('/register', 'App\Http\Controllers\RegisterController@create');
-
-//storing the data from the register
-Route::post('register', 'App\Http\Controllers\RegisterController@store');
-
+// AUTHENTICATION ROUTES
+// ----LOGIN ROUTES
 //creating the login view
-Route::get('/login', 'App\Http\Controllers\LoginController@create');
+Route::get('/login', 'App\Http\Controllers\AuthController@loginCreate');
 
 //Checking the credentials for the login
-Route::post('login', 'App\Http\Controllers\LoginController@store');
+Route::post('login', 'App\Http\Controllers\AuthController@loginStore');
 
 //Log out function
-Route::get('/logout', 'App\Http\Controllers\LoginController@destroy');
+Route::get('/logout', 'App\Http\Controllers\AuthController@destroy');
+// -----------------------------------------------------------------------
 
+// ----REGISTER ROUTES
+//creating the register view
+Route::get('/register', 'App\Http\Controllers\AuthController@registerCreate');
+
+//storing the data from the register
+Route::post('register', 'App\Http\Controllers\AuthController@registerStore');
+//-------------------------------------------------------------------------------
+
+// ----RESET PASSWORD ROUTES
+//view for the page with the insert of an email account
+Route::get('/forgot_password', 'App\Http\Controllers\AuthController@forgot');
+
+//sending the email to the inserted email
+Route::post('/send_email', 'App\Http\Controllers\AuthController@password');
+
+//view for the page slug where I'm confirming the new password
+Route::get('/password/reset/{token}', 'App\Http\Controllers\AuthController@getPassword');
+
+//storing and reseting the new password
+Route::post('/reset-password', 'App\Http\Controllers\AuthController@resetPassword');
+//-------------------------------------------------------------------------------
+
+// ARTICLES ROUTES
 //Creating the view for the add a new article
 Route::get('/add-article', 'App\Http\Controllers\ArticleController@create');
 
@@ -44,15 +64,5 @@ Route::get('/confirm', function () {
 });
 
 Route::get('search-results', 'App\Http\Controllers\ArticleController@search');
+//-------------------------------------------------------------------------------------
 
-//view for the page with the insert of an email account
-Route::get('/forgot_password', 'App\Http\Controllers\ForgotPasswordController@forgot');
-
-//sending the email to the inserted email
-Route::post('/send_email', 'App\Http\Controllers\ForgotPasswordController@password');
-
-//view for the page slug where I'm confirming the new password
-Route::get('/password/reset/{token}', 'App\Http\Controllers\ForgotPasswordController@getPassword');
-
-//storing and reseting the new password
-Route::post('/reset-password', 'App\Http\Controllers\ForgotPasswordController@resetPassword');
