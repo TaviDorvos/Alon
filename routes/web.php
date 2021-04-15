@@ -66,3 +66,9 @@ Route::get('/confirm', function () {
 Route::get('search-results', 'App\Http\Controllers\ArticleController@search');
 //-------------------------------------------------------------------------------------
 
+// https://docs.guzzlephp.org/en/latest/overview.html
+// https://github.com/spatie/crawler
+// https://thephp.website/en/issue/how-to-write-crawlers-with-php/
+// https://www.youtube.com/watch?v=HaMoYhTV1hI&t=21s
+// https://github.com/spatie/crawler/issues/211
+// https://laracasts.com/discuss/channels/laravel/instantiate-abstract-class?page=1#reply-481090

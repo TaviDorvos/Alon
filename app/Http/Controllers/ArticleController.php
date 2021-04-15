@@ -4,8 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
+use Spatie\Crawler\Crawler;
+use Spatie\Crawler\CrawlObservers;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\UriInterface;
+use GuzzleHttp\Exception\RequestException;
+use Symfony\Component\DomCrawler\Crawler as DomCrawler;
 
 class ArticleController extends Controller {
     public function create() {
@@ -13,29 +19,61 @@ class ArticleController extends Controller {
     }
 
     public function store() {
-        //validating the fields from the form
+        // validating the fields from the form
         $this->validate(request(), [
-            'title' => 'required|unique:articles,title',
-            'url' => 'required'
+            // 'title' => 'required|unique:articles,title',
+            'url' => 'required|unique:articles,url'
         ]);
 
-        //getting the body content of the url
-        $url = request('url');
-        $content = file_get_contents($url);
-        $first_explode = explode('<body', $content);
-        //this one will contain the body content which we will store into the database
-        $second_explode = explode('</body>', $first_explode[1]);
+        Crawler::create()
+            ->setCrawlObserver(new class extends \Spatie\Crawler\CrawlObservers\CrawlObserver {
+                public function crawled(UriInterface $url, ResponseInterface $response, ?UriInterface $foundOnUrl = null) {
+                    if ($url->getQuery() != '' || $response->getStatusCode() != 200 || $url->getPath() == "/") {
+                        return;
+                    }
 
-        //creating and adding a new Article into the DB
-        $article = new Article;
+                    $domCrawler = new DomCrawler((string)$response->getBody());
+                    // $content = $domCrawler->filterXPath('//text()[not(ancestor::script)]')->text();
 
-        $article->title = request('title');
-        $article->url = $url;
-        $article->article_text = $second_explode[0];
-        $article->id_user = auth()->id();
-        $article->save();
+                    foreach ($domCrawler as $item) {
+                        $article = new Article;
+                        // $article->title = request('title');
+                        $article->url = (string) $url . PHP_EOL;
+                        $article->article_text = "{$item->textContent}" . PHP_EOL;
+                        $article->id_user = auth()->id();
+                        $article->save();
+                        // var_dump($item->textContent);
+                        // echo "**************************************************";
+                    }
+
+                    // echo (string) $url . PHP_EOL;
+                }
+                public function crawlFailed(UriInterface $url, RequestException $requestException, ?UriInterface $foundOnUrl = null) {
+                    echo $requestException->getMessage() . PHP_EOL;
+                }
+            })
+            ->setDelayBetweenRequests(500)
+            ->startCrawling(request('url'));
 
         return redirect()->to('/confirm');
+
+        // //getting the body content of the url
+        // $url = request('url');
+        // $content = file_get_contents($url);
+        // $first_explode = explode('<body', $content);
+        // //this one will contain the body content which we will store into the database
+        // $second_explode = explode('</body>', $first_explode[1]);
+
+        // //creating and adding a new Article into the DB
+        // $article = new Article;
+
+        // $article->title = request('title');
+        // $article->url = $url;
+        // $article->article_text = $second_explode[0];
+        // $article->id_user = auth()->id();
+        // $article->save();
+
+        // return redirect()->to('/confirm');
     }
 
     public function search(Request $request) {
