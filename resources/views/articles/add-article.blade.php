@@ -11,11 +11,11 @@
             <form id="add-article" method="post" action="/add-article">
                 {{csrf_field()}}
                 <h1>Add new article:</h1>
-                <h2 style="font-size: 14px;">Please fill this form to create a new article:</h2>
-                <div class="form-group mb-3 mt-3">
+                <h2 style="font-size: 14px;">Please add an URL to create a new article:</h2>
+                <!-- <div class="form-group mb-3 mt-3">
                     <label for="title">Title:</label>
                     <input type="text" class="form-control" id="title" name="title" required>
-                </div>
+                </div> -->
                 <div class="form-group mb-3 mt-3">
                     <label for="url">URL:</label>
                     <input type="text" class="form-control" id="url" name="url" required>
