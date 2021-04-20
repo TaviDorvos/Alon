@@ -56,7 +56,7 @@ Route::post('/reset-password', 'App\Http\Controllers\AuthController@resetPasswor
 Route::get('/add-article', 'App\Http\Controllers\ArticleController@create');
 
 //Storing the data from adding a new article
-Route::post('add-article', 'App\Http\Controllers\ArticleController@store');
+Route::post('add-article', 'App\Http\Controllers\ArticleController@crawl');
 
 //confirm message for a new article added
 Route::get('/confirm', function () {

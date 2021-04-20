@@ -17,7 +17,8 @@ class CreateArticlesTable extends Migration
             $table->id();
             $table->integer('id_user');
             $table->string('title');
-            $table->string('article_text');
+            $table->longText('article_text');
+            $table->longText('html_content');
             $table->string('url');
             $table->timestamps();
         });
