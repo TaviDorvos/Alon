@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 class Crawler {
 
-    public static function requestDataUrl($requestedUrl) {
+    public static function requestContent($requestedUrl) {
         // Getting the html content of the inserted url
         $html = file_get_contents($requestedUrl);
 

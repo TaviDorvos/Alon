@@ -19,23 +19,18 @@ class ArticleController extends Controller {
         $this->validate(request(), [
             'url' => 'required|unique:articles,url'
         ]);
-        
-        // Getting the inserted url
-        $url = request('url');
 
-        // Calling the function 'requestDataUrl' from Helpers 
+        // Calling the function 'requestContent' from Helpers 
         // in order get the data we need
-        $title = Crawler::requestDataUrl($url)['title'];
-        $textContent = Crawler::requestDataUrl($url)['text'];
-        $htmlContent = Crawler::requestDataUrl($url)['html-text'];
+        $requestContent = Crawler::requestContent(request('url'));
 
         // Creating and adding a new Article into the DB
         $article = new Article;
 
-        $article->title = $title;
-        $article->url = $url;
-        $article->article_text = $textContent;
-        $article->html_content = $htmlContent;
+        $article->title = $requestContent['title'];;
+        $article->url = request('url');
+        $article->article_text = $requestContent['text'];
+        $article->html_content = $requestContent['html-text'];
         $article->id_user = auth()->id();
         $article->save();
 
