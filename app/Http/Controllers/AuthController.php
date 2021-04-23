@@ -20,7 +20,7 @@ class AuthController extends Controller {
         return view('login-register.login-page');
     }
 
-    //checking the credentials for the user log in
+    // Checking the credentials for the user log in
     public function loginStore(Request $request) {
         if (Auth::attempt(['username' => request('username'), 'password' => request('password')])) {
             return redirect()->intended('/');
@@ -31,7 +31,7 @@ class AuthController extends Controller {
         ]);
     }
 
-    //logout function
+    // Logout function
     public function destroy(Request $request) {
         Auth::logout();
 
@@ -43,12 +43,12 @@ class AuthController extends Controller {
     }
 
     //***************************************************** REGISTER ************************************************************/
-    //Creating the view
+    // Creating the view
     public function registerCreate() {
         return view('login-register.register-page');
     }
 
-    //validating and storing the data of the user who wants to register
+    // Validating and storing the data of the user who wants to register
     public function registerStore() {
         $this->validate(request(), [
             'username' => 'required|unique:users,username',
@@ -71,7 +71,7 @@ class AuthController extends Controller {
     }
 
     //********************************************************************* RESET PASSWORD ***********************************************************************/
-    //creating the view
+    // Creating the view
     public function forgot() {
         return view('reset-password.forgot-password');
     }
@@ -83,21 +83,21 @@ class AuthController extends Controller {
 
     public function password(Request $request) {
 
-        //checking if the the email exists
+        // Checking if the the email exists
         $user = User::where('email', '=', $request->email)->first();
 
         if ($user == null) {
             return redirect()->back()->with(['error' => "Oops. This email doesn't exist."]);
         }
 
-        //inserting the actual email and creating a new random token for it
+        // Inserting the actual email and creating a new random token for it
         DB::table('password_resets')->insert([
             'email' => $request->email,
             'token' => Str::random(40),
             'created_at' => Carbon::now()
         ]);
 
-        //get the token just created above
+        // Get the token just created above
         $tokenData = DB::table('password_resets')
             ->where('email', $request->email)->first();
 
@@ -109,13 +109,13 @@ class AuthController extends Controller {
     }
 
     private function sendResetEmail($email, $token) {
-        //getting the mail/username from the database
+        // Getting the mail/username from the database
         $user = DB::table('users')->where('email', $email)->select('username', 'email')->first();
 
-        //creating the unique reset link
+        // Creating the unique reset link
         $link = URL::to('/') . '/password/reset/' . $token . '?email=' . urlencode($user->email);
 
-        //sending the actual mail
+        // Sending the actual mail
         Mail::send(
             'email.forgot-password-template',
             ['user' => $user, 'link' => $link],
@@ -127,24 +127,24 @@ class AuthController extends Controller {
     }
 
     public function resetPassword(Request $request) {
-        //validate the fields
+        // Validate the fields
         $request->validate([
             'email' => 'required|email|exists:users,email',
             'password' => 'required|confirmed',
         ]);
 
-        //validate the token
+        // Validate the token
         $tokenData = DB::table('password_resets')
             ->where('token', $request->token)->first();
 
-        //redirect the user back to the password reset request form if the token is invalid
+        // Redirect the user back to the password reset request form if the token is invalid
         if (!$tokenData)
             return view('reset-password.forgot-password');
 
-        //updating the new password for the user
+        // Updating the new password for the user
         User::where('email',  $request->email)->update(['password' => Hash::make($request->password)]);
 
-        //delete the token
+        // Delete the token
         DB::table('password_resets')->where('email', $request->email)->delete();
 
         return redirect('/login')->with('message', 'Your password has been changed!');
