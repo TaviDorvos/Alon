@@ -3,9 +3,21 @@
 <b>Built with:</b>
 - [Laravel](https://laravel.com/)
 <br>
-<b>Alon is a search engine and It's one of my personal projects.</b>
+
+Alon is one of my personal projects built in Laravel. This project is a search engine that allows the user to carry out web searches.
+It has 2 types of searching:
 <br>
-<b>**I'm still working on it**</b>
+
+- searching by keywords
+- searching for an exact phrase using quotation marks.
+<br>
+
+I have implemented a web crawler that allows the admin to insert URLs in order to get all the data from the inserted URLs storing it in my database.
+
+I have implemented a Login & Registration with recover password functionality.
+<br>
+
+<b>***I'm still working on it***</b>
 
 ## Motivation
 This project was supposed to be a 'Google clone', but after I've started creating it, I wondered 'Why wouldn't I do my own search engine?'.
